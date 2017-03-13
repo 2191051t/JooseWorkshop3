@@ -42,7 +42,7 @@ public class InvmgtClient {
 	 */
 	public Object updateRequest(long updateitemid, long newBarcode, String newItemName, String newItemType_s,
 			int newQty, String newSupplier, String newDesc) {
-		Item uitem = new Item(newBarcode, newItemName, ItemType.valueOf(newItemType_s.toUpperCase()), newQty, newSupplier, newDesc);
+		Item uitem = new Item(newBarcode, newItemName, ItemType.getItemType(newItemType_s), newQty, newSupplier, newDesc);
 		Builder builder = itemTarget.resolveTemplate("itemid", updateitemid).request();
 		Response putResponse = builder.put(Entity.json(uitem));
 		if (putResponse.getStatus() != 200) {
@@ -95,7 +95,7 @@ public class InvmgtClient {
 	 */
 	public int addItemRequest(long barcode, String itemName, String itemType_s, int qty, String supplier, String desc) {
 		
-		Item newItem = new Item(barcode, itemName, ItemType.valueOf(itemType_s.toUpperCase()), qty, supplier, desc);			
+		Item newItem = new Item(barcode, itemName, ItemType.getItemType(itemType_s), qty, supplier, desc);			
 		Builder builder = itemsTarget.request();
 		Response postResponse = builder.post(Entity.json(newItem));
 		System.out.println(postResponse.getStatus());
